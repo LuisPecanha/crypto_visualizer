@@ -77,34 +77,17 @@ def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
     return list_crypto_dicts
 
 
-class CryptoDataProcesser:
+def CryptoDataProcesser(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
 
     # put in processing module
 
-    def __crypto_list_to_df(list_crypto_dicts: list) -> pd.DataFrame:
+    PRICE_COLUMN = "priceUsd"
 
-        return pd.DataFrame.from_records(list_crypto_dicts)
+    df = pd.DataFrame.from_records(list_crypto_dicts)
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].astype(float)
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].round(decimals=2)
 
-    def __price_to_float(df_column: pd.Series) -> pd.Series:
-
-        df_column = df_column.astype(float)
-        return df_column
-
-    def __round_price_column(df_column: pd.Series) -> pd.Series:
-
-        df_column = df_column.round(decimals=2)
-        return df_column
-
-    @staticmethod
-    def process_crypto_data(asset_id: str, list_crypto_dicts: list):
-
-        PRICE_COLUMN = "priceUsd"
-
-        df = CryptoDataProcesser.__crypto_list_to_df(list_crypto_dicts)
-        df[PRICE_COLUMN] = CryptoDataProcesser.__price_to_float(df[PRICE_COLUMN])
-        df[PRICE_COLUMN] = CryptoDataProcesser.__round_price_column(df[PRICE_COLUMN])
-
-        print(df)
+    print(df)
 
 
 # TODO - Transform data into pandas dataframe and apply treatment
@@ -123,7 +106,7 @@ crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
 
 list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
 
-CryptoDataProcesser.process_crypto_data(asset_id, list_crypto_dicts)
+CryptoDataProcesser(asset_id, list_crypto_dicts)
 
 
 # for data in json_data:
