@@ -57,19 +57,33 @@ def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> d
     return json.loads(response.text.encode("utf8"))
 
 
-# TODO - Format json data
+def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
+
+    crypto_asset_data_dict = crypto_request_json["data"]
+
+    list_crypto_data = []
+
+    for data in crypto_asset_data_dict:
+        list_crypto_data.append(data)
+
+    return list_crypto_data
+
+
+# TODO - Transform data into pandas dataframe and apply treatment
 
 
 # TODO - Pass request keys as args when callin python script
 
 # TODO - Implement asset id verification
 
-asset_id = "etherm"
+asset_id = "ethereum"
 specified_interval = "d1"
 start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
 end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
 
-print(get_cyrpto_asset_history(asset_id, start_date, end_date)["data"])
+crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
+
+print(crypto_asset_json_to_list(crypto_asset_json))
 
 # for data in json_data:
 #     print(data)
