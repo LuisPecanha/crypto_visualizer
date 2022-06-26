@@ -66,23 +66,8 @@ specified_interval = "d1"
 start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
 end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
 
-url = f"http://api.coincap.io/v2/assets/{asset_id}/history?interval={specified_interval}&start={start_date}&end={end_date}"
-
-payload = {}
-headers = {}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-
-json_data = json.loads(response.text.encode("utf8"))
-# print(type(json_data))
-
 print(get_cyrpto_asset_history(asset_id, start_date, end_date)["data"])
 
 # for data in json_data:
 #     print(data)
 #     print("\n")
-
-print(json_data)
-
-
-# HumanDateToEpoch.date_to_unix_miliseconds("2022-06-26")
