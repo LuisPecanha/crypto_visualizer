@@ -4,6 +4,7 @@ from datetime import datetime
 import time
 import requests
 import re
+import pandas as pd
 
 # TODO - Later on, add table for currencies and there value in the main coins (USD, Euro and Sterling)
 # TODO - Do same process of cryptos for stocks
@@ -12,6 +13,9 @@ import re
 
 
 class HumanDateToEpoch:
+
+    # Put in utils module
+
     @staticmethod
     def __verify_format(human_date_string: str) -> bool:
 
@@ -48,6 +52,8 @@ class HumanDateToEpoch:
 
 def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
 
+    # put in asset_requests module
+
     SPECIFIED_INTERVAL = "d1"  # Daily interval (UTC)
 
     crypto_asset_api_url = f"http://api.coincap.io/v2/assets/{asset_id}/history?interval={SPECIFIED_INTERVAL}&start={start_date}&end={end_date}"
@@ -59,14 +65,29 @@ def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> d
 
 def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
 
+    # put in utils module
+
     crypto_asset_data_dict = crypto_request_json["data"]
 
-    list_crypto_data = []
+    list_crypto_dicts = []
 
     for data in crypto_asset_data_dict:
-        list_crypto_data.append(data)
+        list_crypto_dicts.append(data)
 
-    return list_crypto_data
+    return list_crypto_dicts
+
+
+class CryptoDataProcesser:
+
+    # put in processing module
+
+    def __crypto_list_to_df(list_crypto_dicts):
+
+        return pd.DataFrame.from_records(list_crypto_dicts)
+
+    @staticmethod
+    def process_crypto_data(list_crypto_dicts):
+        print(CryptoDataProcesser.__crypto_list_to_df(list_crypto_dicts))
 
 
 # TODO - Transform data into pandas dataframe and apply treatment
@@ -83,7 +104,10 @@ end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
 
 crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
 
-print(crypto_asset_json_to_list(crypto_asset_json))
+list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
+
+CryptoDataProcesser.process_crypto_data(list_crypto_dicts)
+
 
 # for data in json_data:
 #     print(data)
