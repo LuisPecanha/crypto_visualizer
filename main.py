@@ -15,13 +15,23 @@ class HumanDateToEpoch:
         return True if re.match(date_pattern, human_date_string) else False
 
     @staticmethod
+    def __is_future_date(human_date):
+
+        utc_date = datetime.utcnow().date()
+
+        return False if utc_date < human_date else True
+
+    @staticmethod
     def date_to_unix_miliseconds(human_date_string):
 
-        # TODO - Add verification to see if it is not a future date. (do this with a class for date manipulation ?)
         try:
             dt_date = datetime.strptime(human_date_string, "%Y-%m-%d").date()
         except ValueError:
             print("ERROR: Inserted date is not valid. Must be in format YYYY-mm-dd.\n")
+            exit()
+
+        if not HumanDateToEpoch.__is_future_date(dt_date):
+            print("ERROR: Input date is in the future. Correct and try again.\n")
             exit()
 
         result_epoch_string = str(
@@ -29,6 +39,11 @@ class HumanDateToEpoch:
         )
 
         return result_epoch_string
+
+
+# TODO - Pass request keys as args when callin python script
+
+# TODO - do verification for crypto id
 
 
 # url = "http://api.coincap.io/v2/assets/{}/history?interval={}&start={}&end={}"
@@ -41,4 +56,4 @@ class HumanDateToEpoch:
 # json_data = json.loads(response.text.encode('utf8'))
 
 
-HumanDateToEpoch.date_to_unix_miliseconds("2011-12")
+HumanDateToEpoch.date_to_unix_miliseconds("2022-06-26")
