@@ -5,6 +5,11 @@ import time
 import requests
 import re
 
+# TODO - Later on, add table for currencies and there value in the main coins (USD, Euro and Sterling)
+# TODO - Do same process of cryptos for stocks
+# TODO - Create subdirectories to better organize project
+# TODO - Create tests for project
+
 
 class HumanDateToEpoch:
     @staticmethod
@@ -41,19 +46,43 @@ class HumanDateToEpoch:
         return result_epoch_string
 
 
+def get_cyrpto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
+
+    SPECIFIED_INTERVAL = "d1"  # Daily interval (UTC)
+
+    crypto_asset_api_url = f"http://api.coincap.io/v2/assets/{asset_id}/history?interval={SPECIFIED_INTERVAL}&start={start_date}&end={end_date}"
+
+    response = requests.request("GET", crypto_asset_api_url)
+
+    return json.loads(response.text.encode("utf8"))
+
+
 # TODO - Pass request keys as args when callin python script
 
-# TODO - do verification for crypto id
+# TODO - Implement asset id verification
+
+asset_id = "etherm"
+specified_interval = "d1"
+start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
+end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
+
+url = f"http://api.coincap.io/v2/assets/{asset_id}/history?interval={specified_interval}&start={start_date}&end={end_date}"
+
+payload = {}
+headers = {}
+
+response = requests.request("GET", url, headers=headers, data=payload)
+
+json_data = json.loads(response.text.encode("utf8"))
+# print(type(json_data))
+
+print(get_cyrpto_asset_history(asset_id, start_date, end_date)["data"])
+
+# for data in json_data:
+#     print(data)
+#     print("\n")
+
+print(json_data)
 
 
-# url = "http://api.coincap.io/v2/assets/{}/history?interval={}&start={}&end={}"
-
-# payload = {}
-# headers = {}
-
-# response = requests.request("GET", url, headers=headers, data = payload)
-
-# json_data = json.loads(response.text.encode('utf8'))
-
-
-HumanDateToEpoch.date_to_unix_miliseconds("2022-06-26")
+# HumanDateToEpoch.date_to_unix_miliseconds("2022-06-26")
