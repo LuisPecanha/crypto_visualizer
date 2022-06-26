@@ -46,7 +46,7 @@ class HumanDateToEpoch:
         return result_epoch_string
 
 
-def get_cyrpto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
+def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
 
     SPECIFIED_INTERVAL = "d1"  # Daily interval (UTC)
 
