@@ -92,13 +92,10 @@ def CryptoDataProcesser(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
     )  # string to datetime
     df[DATE_COLUMN] = df[DATE_COLUMN].dt.date  # maintain only date
     df["crypto_name"] = asset_id
-
     df = df[["crypto_name", PRICE_COLUMN, DATE_COLUMN]]
+    df = df.rename(columns={PRICE_COLUMN: "price_usd"})
 
     print(df)
-
-
-# TODO - Transform data into pandas dataframe and apply treatment
 
 
 # TODO - Pass request keys as args when callin python script
