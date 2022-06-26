@@ -13,21 +13,21 @@ import re
 
 class HumanDateToEpoch:
     @staticmethod
-    def __verify_format(human_date_string):
+    def __verify_format(human_date_string: str) -> bool:
 
         date_pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
 
         return True if re.match(date_pattern, human_date_string) else False
 
     @staticmethod
-    def __is_future_date(human_date):
+    def __is_future_date(human_date: str) -> bool:
 
         utc_date = datetime.utcnow().date()
 
         return False if utc_date < human_date else True
 
     @staticmethod
-    def date_to_unix_miliseconds(human_date_string):
+    def date_to_unix_miliseconds(human_date_string: str) -> int:
 
         try:
             dt_date = datetime.strptime(human_date_string, "%Y-%m-%d").date()
@@ -55,6 +55,9 @@ def get_cyrpto_asset_history(asset_id: str, start_date: str, end_date: str) -> d
     response = requests.request("GET", crypto_asset_api_url)
 
     return json.loads(response.text.encode("utf8"))
+
+
+# TODO - Format json data
 
 
 # TODO - Pass request keys as args when callin python script
