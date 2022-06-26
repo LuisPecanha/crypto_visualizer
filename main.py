@@ -77,7 +77,7 @@ def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
     return list_crypto_dicts
 
 
-def CryptoDataProcesser(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
+def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
 
     # put in processing module
 
@@ -111,7 +111,7 @@ crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
 
 list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
 
-CryptoDataProcesser(asset_id, list_crypto_dicts)
+process_crypto_dataframe(asset_id, list_crypto_dicts)
 
 
 # for data in json_data:
