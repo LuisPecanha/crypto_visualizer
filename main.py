@@ -82,10 +82,15 @@ def CryptoDataProcesser(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
     # put in processing module
 
     PRICE_COLUMN = "priceUsd"
+    DATE_COLUMN = "date"
 
     df = pd.DataFrame.from_records(list_crypto_dicts)
-    df[PRICE_COLUMN] = df[PRICE_COLUMN].astype(float)
-    df[PRICE_COLUMN] = df[PRICE_COLUMN].round(decimals=2)
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].astype(float)  # string to float
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].round(decimals=2)  # round float
+    df[DATE_COLUMN] = pd.to_datetime(
+        df[DATE_COLUMN], format="%Y-%m-%d"
+    )  # string to datetime
+    df[DATE_COLUMN] = df[DATE_COLUMN].dt.date  # maintain only date
 
     print(df)
 
