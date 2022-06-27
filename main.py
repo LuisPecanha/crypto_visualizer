@@ -106,21 +106,19 @@ def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataF
     df = df[["crypto_name", PRICE_COLUMN, DATE_COLUMN]]
     df = df.rename(columns={PRICE_COLUMN: "price_usd"})
 
-    print(df)
+    return df
 
 
-def main(argv):
+def main(args):
 
-    asset_id = "ethereum"
-    specified_interval = "d1"
-    start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
-    end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
+    asset_id = args.asset_id
+    start_date = HumanDateToEpoch.date_to_unix_miliseconds(args.start_date)
+    end_date = HumanDateToEpoch.date_to_unix_miliseconds(args.end_date)
 
     crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
-
     list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
 
-    process_crypto_dataframe(asset_id, list_crypto_dicts)
+    print(process_crypto_dataframe(asset_id, list_crypto_dicts))
 
 
 def get_parser():
