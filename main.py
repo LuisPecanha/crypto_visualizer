@@ -109,16 +109,27 @@ def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataF
     return df
 
 
+def execute_crypto_asset_etl_routine(
+    asset_id: str, start_date: str, end_date: str
+) -> None:
+
+    # Put in processing module
+
+    crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
+    list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
+
+    df = process_crypto_dataframe(asset_id, list_crypto_dicts)
+
+    return df
+
+
 def main(args):
 
     asset_id = args.asset_id
     start_date = HumanDateToEpoch.date_to_unix_miliseconds(args.start_date)
     end_date = HumanDateToEpoch.date_to_unix_miliseconds(args.end_date)
 
-    crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
-    list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
-
-    print(process_crypto_dataframe(asset_id, list_crypto_dicts))
+    print(get_crypto_asset_history(asset_id, start_date, end_date))
 
 
 def get_parser():
@@ -155,4 +166,4 @@ if __name__ == "__main__":
 
 # TODO - Implement asset id verification
 
-# python3 main.py ASSET_ID="bitcoin" START_DATE="2022-05-15" END_DATE="2022-05-22"
+# python3 main.py ASSET_ID="bitcoin" START_DATE="2022-05-15" END_DATE="2022-05-22" ------------------------------------------------
