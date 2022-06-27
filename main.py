@@ -162,8 +162,6 @@ if __name__ == "__main__":
     main(get_parser().parse_args())
 
 
-# TODO - Pass request keys as args when callin python script
-
 # TODO - Implement asset id verification
 
 # python3 main.py ASSET_ID="bitcoin" START_DATE="2022-05-15" END_DATE="2022-05-22" ------------------------------------------------
