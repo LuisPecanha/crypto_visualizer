@@ -98,22 +98,24 @@ def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataF
     print(df)
 
 
+def main():
+
+    asset_id = "ethereum"
+    specified_interval = "d1"
+    start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
+    end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
+
+    crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
+
+    list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
+
+    process_crypto_dataframe(asset_id, list_crypto_dicts)
+
+
+if __name__ == "__main__":
+    main()
+
+
 # TODO - Pass request keys as args when callin python script
 
 # TODO - Implement asset id verification
-
-asset_id = "ethereum"
-specified_interval = "d1"
-start_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-14")
-end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
-
-crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
-
-list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
-
-process_crypto_dataframe(asset_id, list_crypto_dicts)
-
-
-# for data in json_data:
-#     print(data)
-#     print("\n")
