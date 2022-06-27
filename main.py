@@ -4,6 +4,7 @@ from datetime import datetime
 import time
 import requests
 import re
+import pandas as pd
 
 # TODO - Later on, add table for currencies and there value in the main coins (USD, Euro and Sterling)
 # TODO - Do same process of cryptos for stocks
@@ -12,6 +13,9 @@ import re
 
 
 class HumanDateToEpoch:
+
+    # Put in utils module
+
     @staticmethod
     def __verify_format(human_date_string: str) -> bool:
 
@@ -48,6 +52,8 @@ class HumanDateToEpoch:
 
 def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
 
+    # put in asset_requests module
+
     SPECIFIED_INTERVAL = "d1"  # Daily interval (UTC)
 
     crypto_asset_api_url = f"http://api.coincap.io/v2/assets/{asset_id}/history?interval={SPECIFIED_INTERVAL}&start={start_date}&end={end_date}"
@@ -59,17 +65,37 @@ def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> d
 
 def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
 
+    # put in utils module
+
     crypto_asset_data_dict = crypto_request_json["data"]
 
-    list_crypto_data = []
+    list_crypto_dicts = []
 
     for data in crypto_asset_data_dict:
-        list_crypto_data.append(data)
+        list_crypto_dicts.append(data)
 
-    return list_crypto_data
+    return list_crypto_dicts
 
 
-# TODO - Transform data into pandas dataframe and apply treatment
+def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
+
+    # put in processing module
+
+    PRICE_COLUMN = "priceUsd"
+    DATE_COLUMN = "date"
+
+    df = pd.DataFrame.from_records(list_crypto_dicts)
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].astype(float)  # string to float
+    df[PRICE_COLUMN] = df[PRICE_COLUMN].round(decimals=2)  # round float
+    df[DATE_COLUMN] = pd.to_datetime(
+        df[DATE_COLUMN], format="%Y-%m-%d"
+    )  # string to datetime
+    df[DATE_COLUMN] = df[DATE_COLUMN].dt.date  # maintain only date
+    df["crypto_name"] = asset_id
+    df = df[["crypto_name", PRICE_COLUMN, DATE_COLUMN]]
+    df = df.rename(columns={PRICE_COLUMN: "price_usd"})
+
+    print(df)
 
 
 # TODO - Pass request keys as args when callin python script
@@ -83,7 +109,10 @@ end_date = HumanDateToEpoch.date_to_unix_miliseconds("2022-05-21")
 
 crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
 
-print(crypto_asset_json_to_list(crypto_asset_json))
+list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
+
+process_crypto_dataframe(asset_id, list_crypto_dicts)
+
 
 # for data in json_data:
 #     print(data)
