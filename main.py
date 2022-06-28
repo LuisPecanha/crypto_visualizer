@@ -129,7 +129,7 @@ def main(args):
     start_date = HumanDateToEpoch.date_to_unix_miliseconds(args.start_date)
     end_date = HumanDateToEpoch.date_to_unix_miliseconds(args.end_date)
 
-    print(get_crypto_asset_history(asset_id, start_date, end_date))
+    print(execute_crypto_asset_etl_routine(asset_id, start_date, end_date))
 
 
 def get_parser():
