@@ -78,7 +78,11 @@ def crypto_asset_json_to_list(crypto_request_json: dict) -> list:
 
     # put in utils module
 
-    crypto_asset_data_dict = crypto_request_json["data"]
+    try:
+        crypto_asset_data_dict = crypto_request_json["data"]
+    except KeyError:
+        print("ERROR-> " + crypto_request_json["error"])
+        sys.exit(2)
 
     list_crypto_dicts = []
 
