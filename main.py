@@ -12,7 +12,6 @@ from libs.processing import execute_crypto_asset_etl_routine
 
 # TODO - Later on, add table for currencies and there value in the main coins (USD, Euro and Sterling)
 # TODO - Do same process of cryptos for stocks
-# TODO - Create subdirectories to better organize project
 # TODO - Create tests for project
 
 
