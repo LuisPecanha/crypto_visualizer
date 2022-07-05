@@ -3,7 +3,11 @@ import requests, json
 
 def get_crypto_asset_history(asset_id: str, start_date: str, end_date: str) -> dict:
 
-    # put in asset_requests module
+    """Obtains data regarding the specified crypto asset inside the date interval passed.
+
+    Returns:
+        dict: Dict containg dicts of crypto data
+    """
 
     SPECIFIED_INTERVAL = "d1"  # Daily interval (UTC)
 

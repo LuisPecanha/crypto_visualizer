@@ -4,8 +4,15 @@ from .asset_requests import get_crypto_asset_history
 
 
 def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataFrame:
+    """Transforms list of dictionaries into DataFrame and processes the data.
 
-    # put in processing module
+    Args:
+        asset_id (str): Name of the crypto asset that will be processed.
+        list_crypto_dicts (list): List containing dictionaries with the crypto asset data.
+
+    Returns:
+        pd.DataFrame: DataFrame containing crypto asset information. 
+    """
 
     PRICE_COLUMN = "priceUsd"
     DATE_COLUMN = "date"
@@ -26,9 +33,13 @@ def process_crypto_dataframe(asset_id: str, list_crypto_dicts: list) -> pd.DataF
 
 def execute_crypto_asset_etl_routine(
     asset_id: str, start_date: str, end_date: str
-) -> None:
+) -> pd.DataFrame:
 
-    # Put in processing module
+    """Executes all steps necessary for the crypto asset ETL pipeline to work, from extraction to processing and load. 
+
+    Returns:
+        pd.DataFrame: DataFrame containing crypto asset information.
+    """
 
     crypto_asset_json = get_crypto_asset_history(asset_id, start_date, end_date)
     list_crypto_dicts = crypto_asset_json_to_list(crypto_asset_json)
