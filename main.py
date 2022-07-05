@@ -7,6 +7,7 @@ argument 3: The end date to retrieve data (e.g '2022-05-27')
 """
 
 import argparse
+from ast import arg
 from libs.utils import HumanDateToEpoch
 from libs.processing import execute_crypto_asset_etl_routine
 
@@ -25,7 +26,7 @@ def main(args):
     print(execute_crypto_asset_etl_routine(asset_id, start_date, end_date))
 
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -47,6 +48,8 @@ def get_parser():
         type=str,
     )
 
+    print(type(parser))
+
     return parser
 
 
@@ -54,4 +57,4 @@ if __name__ == "__main__":
 
     main(get_parser().parse_args())
 
-# python3 main.py ASSET_ID="bitcoin" START_DATE="2022-05-15" END_DATE="2022-05-22" ------------------------------------------------
+# python3 main.py "bitcoin" "2022-05-15" "2022-05-22" ------------------------------------------------
