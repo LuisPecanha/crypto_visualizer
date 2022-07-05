@@ -27,6 +27,11 @@ def main(args):
 
 
 def get_parser() -> argparse.ArgumentParser:
+    """Gets the parser that obtains the arguments passed onto the script call.
+
+    Returns:
+        argparse.ArgumentParser: Argument Parser.
+    """
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -47,8 +52,6 @@ def get_parser() -> argparse.ArgumentParser:
         metavar="END_DATE",
         type=str,
     )
-
-    print(type(parser))
 
     return parser
 
